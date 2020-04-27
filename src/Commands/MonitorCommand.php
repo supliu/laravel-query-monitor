@@ -1,6 +1,6 @@
 <?php
 
-namespace Supliu\LaravelEloquentMonitor\Commands;
+namespace Supliu\LaravelQueryMonitor\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;

@@ -1,11 +1,11 @@
 <?php
 
-namespace Supliu\LaravelEloquentMonitor;
+namespace Supliu\LaravelQueryMonitor;
 
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
-use Supliu\LaravelEloquentMonitor\Commands\MonitorCommand;
+use Supliu\LaravelQueryMonitor\Commands\MonitorCommand;
 
 class ServiceProvider extends BaseServiceProvider
 {

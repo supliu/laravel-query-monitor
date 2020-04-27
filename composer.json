@@ -1,9 +1,9 @@
 {
-    "name": "supliu/laravel-eloquent-monitor",
+    "name": "supliu/laravel-query-monitor",
     "type": "library",
-    "description": "Laravel Eloquent Monitor",
+    "description": "Laravel Query Monitor",
     "keywords": [
-        "laravel", "eloquent", "sql", "monitor"
+        "laravel", "eloquent", "query", "sql", "monitor"
     ],
     "authors": [
         {
@@ -14,10 +14,11 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Supliu\\LaravelEloquentMonitor\\": "src/"
+            "Supliu\\LaravelQueryMonitor\\": "src/"
         }
     },
     "require": {
+        "laravel/framework": "^5.6",
         "ext-sockets" : "*",
         "php": "^7.2.5",
         "react/socket": "^1.4"
@@ -28,7 +29,7 @@
         },
         "laravel": {
             "providers": [
-                "Supliu\\LaravelEloquentMonitor\\ServiceProvider"
+                "Supliu\\LaravelQueryMonitor\\ServiceProvider"
             ]
         }
     },
