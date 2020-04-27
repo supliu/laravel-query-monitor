@@ -1,0 +1,36 @@
+{
+    "name": "supliu/laravel-eloquent-monitor",
+    "type": "library",
+    "description": "Laravel Eloquent Monitor",
+    "keywords": [
+        "laravel", "eloquent", "sql", "monitor"
+    ],
+    "authors": [
+        {
+            "name": "Jansen Felipe",
+            "email": "jansen.felipe@gmail.com"
+        }
+    ],
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Supliu\\LaravelEloquentMonitor\\": "src/"
+        }
+    },
+    "require": {
+        "ext-sockets" : "*",
+        "php": "^7.2.5",
+        "react/socket": "^1.4"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        },
+        "laravel": {
+            "providers": [
+                "Supliu\\LaravelEloquentMonitor\\ServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev"
+}
