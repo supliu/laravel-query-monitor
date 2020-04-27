@@ -5,7 +5,9 @@
 
 # Laravel Query Monitor
 
-Library to monitoring Queries in real-time using Laravel.
+A <a href="https://supliu.com.br">Supliu</a> Laravel Query Monitor is library to monitoring Queries in real-time using Laravel Artisan Command.
+
+Basically it opens a socket listening and displays (on terminal) the queries executed in your Laravel application.
 
 ## How to install
 
