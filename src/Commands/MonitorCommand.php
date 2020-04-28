@@ -15,7 +15,7 @@ class MonitorCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'laravel-eloquent-monitor';
+    protected $signature = 'laravel-query-monitor {--host=} {--port=}';
 
     /**
      * The console command description.
@@ -41,10 +41,13 @@ class MonitorCommand extends Command
      */
     public function handle()
     {
-        $this->info('Listen SQL queries on *:8080' . PHP_EOL . PHP_EOL);
+        $host = $this->option('host') ?? '0.0.0.0';
+        $port = $this->option('port') ?? '8081';
+
+        $this->info('Listen SQL queries on '.$host.':'.$port . PHP_EOL . PHP_EOL);
 
         $loop = Factory::create();
-        $socket = new Server('127.0.0.1:8080', $loop);
+        $socket = new Server($host.':'.$port, $loop);
 
         $socket->on('connection', function (ConnectionInterface $connection) {
 

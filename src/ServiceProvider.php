@@ -22,18 +22,25 @@ class ServiceProvider extends BaseServiceProvider
             ]);
         }
 
+        $this->publishes([
+            __DIR__.'/../config/laravel-query-monitor.php' => config_path('laravel-query-monitor.php'),
+        ]);
+
         /*
          * Load views
          */
         DB::listen(function($query){
 
-            if(env('LARAVEL_ELOQUENT_MONITOR') != 'off'){
+            if(config('laravel-query-monitor.enable')){
                 
+                $host = config('laravel-query-monitor.host');
+                $port = config('laravel-query-monitor.port');
+
                 if (false == ($socket = @socket_create(AF_INET, SOCK_STREAM, SOL_TCP))) {
                     throw new Exception("socket_create() failed: reason: " . socket_strerror(socket_last_error()));
                 }
     
-                if (false == (@socket_connect($socket, '127.0.0.1', 8080))) {
+                if (false == (@socket_connect($socket, $host, $port))) {
                     throw new Exception("socket_bind() failed: reason: " . socket_strerror(socket_last_error($socket)));
                 }
     
