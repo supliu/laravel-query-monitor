@@ -14,7 +14,7 @@ Basically it opens a socket listening and displays (on terminal) the queries exe
 Use composer to install this package
 
 ```
-composer require supliu/laravel-query-monitor
+composer require-dev supliu/laravel-query-monitor
 ```
 
 ## How to use
