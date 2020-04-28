@@ -12,10 +12,16 @@
 
 ## How to install
 
-Use composer to install this package
+1) Use composer to install this package
 
 ```
 composer require --dev supliu/laravel-query-monitor
+```
+
+2) Run publish command
+
+```ssh
+php artisan vendor:publish --provider="Supliu\LaravelQueryMonitor\ServiceProvider"
 ```
 
 ## How to use
@@ -28,7 +34,7 @@ php artisan laravel-query-monitor
 
 Now just perform some action in your application that performs some interaction with the database.
 
-## Custom
+## Customize
 
 By default, the query listening service will run on host 0.0.0.0 and port 8081. You can customize both the host and the port by providing the optional arguments:
 
@@ -36,13 +42,7 @@ By default, the query listening service will run on host 0.0.0.0 and port 8081. 
 php artisan laravel-query-monitor --host="192.168.0.2" --port=8082
 ```
 
-If you change the host and port parameters, you will also need to change the configuration file `config/laravel-query-monitor.php`. To edit it, you must first publish the package:
-
-```ssh
-php artisan vendor:publish --provider="Supliu\LaravelQueryMonitor\ServiceProvider"
-```
-
-
+If you change the host and port parameters, you will also need to change the configuration file `config/laravel-query-monitor.php`.
 
 ## License
 
