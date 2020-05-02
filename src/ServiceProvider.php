@@ -2,7 +2,6 @@
 
 namespace Supliu\LaravelQueryMonitor;
 
-use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Supliu\LaravelQueryMonitor\Commands\MonitorCommand;

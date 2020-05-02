@@ -3,9 +3,7 @@
 namespace Supliu\LaravelQueryMonitor;
 
 use Closure;
-use Illuminate\Support\Str;
 use React\EventLoop\Factory;
-use React\Socket\Server;
 use React\Socket\ConnectionInterface;
 use React\Socket\Connector;
 

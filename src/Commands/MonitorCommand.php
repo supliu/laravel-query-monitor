@@ -3,10 +3,6 @@
 namespace Supliu\LaravelQueryMonitor\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Str;
-use React\EventLoop\Factory;
-use React\Socket\Server;
-use React\Socket\ConnectionInterface;
 use Supliu\LaravelQueryMonitor\ListenQueries;
 
 class MonitorCommand extends Command
