@@ -27,33 +27,23 @@ class ServiceProvider extends BaseServiceProvider
         ]);
 
         /*
-         * Load views
+         * Setting
          */
-        DB::listen(function($query){
+        $host = config('laravel-query-monitor.host');
+        $port = config('laravel-query-monitor.port');
 
-            if(config('laravel-query-monitor.enable')){
-                
-                $host = config('laravel-query-monitor.host');
-                $port = config('laravel-query-monitor.port');
+        if($host && $port){
 
-                if (false == ($socket = @socket_create(AF_INET, SOCK_STREAM, SOL_TCP))) {
-                    throw new Exception("socket_create() failed: reason: " . socket_strerror(socket_last_error()));
+            $dispatchQueries = new DispatchQueries($host, $port);
+
+            DB::listen(function($query) use ($dispatchQueries){
+    
+                if(config('laravel-query-monitor.enable')){
+                    
+                    $dispatchQueries->send($query);
                 }
     
-                if (false == (@socket_connect($socket, $host, $port))) {
-                    throw new Exception("socket_bind() failed: reason: " . socket_strerror(socket_last_error($socket)));
-                }
-    
-                $message = json_encode($query);
-    
-                socket_write($socket, $message, strlen($message)) or die("Could not send data to server");
-            }
-
-        });
-    }
-
-    protected function bootPublishes()
-    {
-
+            });
+        }
     }
 }

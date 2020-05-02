@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use React\EventLoop\Factory;
 use React\Socket\Server;
 use React\Socket\ConnectionInterface;
+use Supliu\LaravelQueryMonitor\ListenQueries;
 
 class MonitorCommand extends Command
 {
@@ -44,29 +45,16 @@ class MonitorCommand extends Command
         $host = $this->option('host') ?? '0.0.0.0';
         $port = $this->option('port') ?? '8081';
 
-        $this->info('Listen SQL queries on '.$host.':'.$port . PHP_EOL . PHP_EOL);
-
-        $loop = Factory::create();
-        $socket = new Server($host.':'.$port, $loop);
-
-        $socket->on('connection', function (ConnectionInterface $connection) {
-
-            $connection->on('data', function ($data) use ($connection) {
-                
-                $query = json_decode($data, true);
-
-                $sql = Str::replaceArray('?', array_map(function($i){ return is_string($i) ? "'$i'" : $i; }, $query['bindings']),$query['sql']);
-
-                $this->warn('# Query recived:');
-                $this->info('# SQL: ' . $sql);
-                $this->info('# Time: ' . $query['time'] / 1000 . ' seconds');
-
-                $this->info(PHP_EOL);
-
-                $connection->close();
-            });
+        $listenQueries = new ListenQueries($host, $port);
+        
+        $listenQueries->setInfo(function($message){
+            $this->info($message);
         });
 
-        $loop->run();
+        $listenQueries->setWarn(function($message){
+            $this->warn($message);
+        });
+
+        $listenQueries->run();
     }
 }
