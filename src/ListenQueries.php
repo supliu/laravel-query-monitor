@@ -50,7 +50,7 @@ class ListenQueries
 
                 $sql = Str::replaceArray('?', array_map(function($i){ return is_string($i) ? "'$i'" : $i; }, $query['bindings']),$query['sql']);
 
-                call_user_func($this->warn, '# Query recived:');
+                call_user_func($this->warn, '# Query received:');
                 call_user_func($this->info, '# SQL: ' . $sql);
                 call_user_func($this->info, '# Time: ' . $query['time'] / 1000 . ' seconds');
 
