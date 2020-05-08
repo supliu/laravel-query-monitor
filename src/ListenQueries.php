@@ -48,15 +48,22 @@ class ListenQueries
                 
                 $query = json_decode($data, true);
 
-                $sql = Str::replaceArray('?', array_map(function($i){ return is_string($i) ? "'$i'" : $i; }, $query['bindings']),$query['sql']);
-
                 call_user_func($this->warn, '# Query received:');
-                call_user_func($this->info, '# SQL: ' . $sql);
-                call_user_func($this->info, '# Time: ' . $query['time'] / 1000 . ' seconds');
+
+                if ($query === null) {
+                    call_user_func($this->warn, '# Something wrong happened with JSON data received: ');
+                    call_user_func($this->info, $data);
+                } else {
+                    $sql = Str::replaceArray('?', array_map(function($i){ return is_string($i) ? "'$i'" : $i; }, $query['bindings']),$query['sql']);
+
+                    call_user_func($this->info, '# SQL: ' . $sql);
+                    call_user_func($this->info, '# Time: ' . $query['time'] / 1000 . ' seconds');
+                }
 
                 call_user_func($this->info, PHP_EOL);
 
                 $connection->close();
+                
             });
         });
 
