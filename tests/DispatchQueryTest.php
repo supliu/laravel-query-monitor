@@ -28,11 +28,19 @@ class DispatchQueryTest extends TestCase
      */
     public function dispatchQuery()
     {
-        DB::table('sqlite_master')->count();
+        DB::statement('CREATE TABLE foo (id Int, name varchar)');
 
-        DB::table('sqlite_master')
-            ->where('type', 'table')
-            ->where('type', '!=', 'foo')
+        DB::table('foo')->count();
+
+        DB::table('foo')->insert([
+            'id' => 1,
+            'name' => 'bar'
+        ]);
+
+        DB::table('foo')
+            ->where('id', '!=', 4)
             ->first();
+
+        DB::table('foo')->count();
     }
 }
