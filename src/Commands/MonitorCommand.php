@@ -12,7 +12,7 @@ class MonitorCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'laravel-query-monitor {--host=} {--port=}';
+    protected $signature = 'laravel-query-monitor {--host=} {--port=} {--debug}';
 
     /**
      * The console command description.
@@ -40,6 +40,7 @@ class MonitorCommand extends Command
     {
         $host = $this->option('host') ?? '0.0.0.0';
         $port = $this->option('port') ?? '8081';
+        $debug = $this->option('debug') ?? false;
 
         $listenQueries = new ListenQueries($host, $port);
         
@@ -50,6 +51,8 @@ class MonitorCommand extends Command
         $listenQueries->setWarn(function($message){
             $this->warn($message);
         });
+
+        $listenQueries->setDebug($debug);
 
         $listenQueries->run();
     }

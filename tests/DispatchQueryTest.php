@@ -28,6 +28,11 @@ class DispatchQueryTest extends TestCase
      */
     public function dispatchQuery()
     {
-       DB::select("SELECT name FROM sqlite_master WHERE type='table'");
+        DB::table('sqlite_master')->count();
+
+        DB::table('sqlite_master')
+            ->where('type', 'table')
+            ->where('type', '!=', 'foo')
+            ->first();
     }
 }

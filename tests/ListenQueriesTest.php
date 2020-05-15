@@ -26,6 +26,8 @@ class ListenQueriesTest extends TestCase
             fwrite(STDERR, print_r($message . PHP_EOL, TRUE));
         });
 
+        $listenQueries->setDebug(true);
+
         $listenQueries->run();
     }
 }
