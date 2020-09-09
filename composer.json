@@ -35,6 +35,6 @@
     "minimum-stability": "dev",
     "require-dev": {
         "phpunit/phpunit": "^9.2@dev",
-        "orchestra/testbench": "5.*"
+        "orchestra/testbench": "5.* || 5.*"
     }
 }
