@@ -11,6 +11,26 @@ use React\Socket\ConnectionInterface;
 class ListenQueries
 {
     /**
+     * @var string
+     */
+    private $host;
+
+    /**
+     * @var int
+     */
+    private $port;
+
+    /**
+     * @var \React\EventLoop\LoopInterface
+     */
+    private $loop;
+
+    /**
+     * @var \React\Socket\ServerInterface
+     */
+    private $socket;
+    
+    /**
      * @var Closure
      */
     private $info;

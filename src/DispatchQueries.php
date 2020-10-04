@@ -10,16 +10,26 @@ use React\Socket\Connector;
 class DispatchQueries
 {
     /**
+     * @var string
+     */
+    private $host;
+
+    /**
+     * @var int
+     */
+    private $port;
+
+    /**
+     * @var \React\EventLoop\LoopInterface
+     */
+    private $loop;
+    
+    /**
      * @var Connector
      */
     private $connector;
 
-    /**
-     * @var Closure
-     */
-    private $warn;
-
-    function __construct(string $host, int $port)
+    public function __construct(string $host, int $port)
     {
         $this->host = $host;
         $this->port = $port;
