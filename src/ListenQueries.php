@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Supliu\LaravelQueryMonitor;
 
@@ -53,22 +53,28 @@ class ListenQueries
         $this->socket = new Server($host.':'.$port, $this->loop);
     }
 
-    public function setInfo(Closure $info)
+    public function setInfo(Closure $info): self
     {
         $this->info = $info;
+
+        return $this;
     }
 
-    public function setWarn(Closure $warn)
+    public function setWarn(Closure $warn): self
     {
         $this->warn = $warn;
+
+        return $this;
     }
 
-    public function setDebug(bool $debug)
+    public function setDebug(bool $debug): self
     {
         $this->debug = $debug;
+
+        return $this;
     }
 
-    public function run()
+    public function run(): void
     {
         call_user_func($this->info, 'Listen SQL queries on '.$this->host.':'.$this->port . PHP_EOL . PHP_EOL);
 

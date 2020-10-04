@@ -1,8 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Supliu\LaravelQueryMonitor;
 
-use Closure;
 use React\EventLoop\Factory;
 use React\Socket\ConnectionInterface;
 use React\Socket\Connector;
@@ -37,7 +36,7 @@ class DispatchQueries
         $this->connector = new Connector($this->loop);
     }
 
-    public function send($query)
+    public function send($query): void
     {
         $this->connector
             ->connect($this->host . ':' . $this->port)

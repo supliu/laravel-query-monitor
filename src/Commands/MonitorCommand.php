@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Supliu\LaravelQueryMonitor\Commands;
 
@@ -38,22 +38,18 @@ class MonitorCommand extends Command
      */
     public function handle()
     {
-        $host = $this->option('host') ?? '0.0.0.0';
-        $port = $this->option('port') ?? '8081';
-        $debug = $this->option('debug') ?? false;
+        $host = $this->option('host') ?? config('laravel-query-monitor.host', '0.0.0.0');
+        $port = $this->option('port') ?? config('laravel-query-monitor.port', 8081);
+        $debug = (bool) $this->option('debug') ?? false;
 
-        $listenQueries = new ListenQueries($host, $port);
-        
-        $listenQueries->setInfo(function ($message) {
-            $this->info($message);
-        });
-
-        $listenQueries->setWarn(function ($message) {
-            $this->warn($message);
-        });
-
-        $listenQueries->setDebug($debug);
-
-        $listenQueries->run();
+        (new ListenQueries($host, (int) $port))
+            ->setInfo(function ($message) {
+                $this->info($message);
+            })
+            ->setWarn(function ($message) {
+                $this->warn($message);
+            })
+            ->setDebug($debug)
+            ->run();
     }
 }
