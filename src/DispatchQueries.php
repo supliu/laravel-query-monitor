@@ -39,11 +39,11 @@ class DispatchQueries
 
     public function send($query)
     {
-        $this->connector->connect($this->host . ':' . $this->port)->then(function (ConnectionInterface $connection) use ($query) {
-    
-            $connection->write(json_encode($query));
-
-        });
+        $this->connector
+            ->connect($this->host . ':' . $this->port)
+            ->then(function (ConnectionInterface $connection) use ($query) {
+                $connection->write(json_encode($query));
+            });
         
         $this->loop->run();
     }

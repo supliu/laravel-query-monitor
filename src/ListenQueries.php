@@ -45,7 +45,7 @@ class ListenQueries
      */
     private $debug = false;
 
-    function __construct(string $host, int $port)
+    public function __construct(string $host, int $port)
     {
         $this->host = $host;
         $this->port = $port;
@@ -73,11 +73,10 @@ class ListenQueries
         call_user_func($this->info, 'Listen SQL queries on '.$this->host.':'.$this->port . PHP_EOL . PHP_EOL);
 
         $this->socket->on('connection', function (ConnectionInterface $connection) {
-
             $connection->on('data', function ($data) use ($connection) {
-                
-                if($this->debug)
+                if ($this->debug) {
                     call_user_func($this->warn, '# Debug:' . $data);
+                }
 
                 $query = json_decode($data, true);
 
@@ -87,11 +86,10 @@ class ListenQueries
                     call_user_func($this->warn, '# Something wrong happened with JSON data received: ');
                     call_user_func($this->info, $data);
                 } else {
-
                     $bindings = $query['bindings'] ?? [];
 
-                    $normalizedBindings = array_map(function($i){ 
-                        return is_string($i) ? '"'.$i.'"' : $i; 
+                    $normalizedBindings = array_map(function ($i) {
+                        return is_string($i) ? '"'.$i.'"' : $i;
                     }, $bindings);
 
                     $sql = Str::replaceArray('?', $normalizedBindings, $query['sql']);
@@ -103,7 +101,6 @@ class ListenQueries
                 call_user_func($this->info, PHP_EOL);
 
                 $connection->close();
-                
             });
         });
 

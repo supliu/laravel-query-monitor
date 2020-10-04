@@ -44,11 +44,11 @@ class MonitorCommand extends Command
 
         $listenQueries = new ListenQueries($host, $port);
         
-        $listenQueries->setInfo(function($message){
+        $listenQueries->setInfo(function ($message) {
             $this->info($message);
         });
 
-        $listenQueries->setWarn(function($message){
+        $listenQueries->setWarn(function ($message) {
             $this->warn($message);
         });
 
