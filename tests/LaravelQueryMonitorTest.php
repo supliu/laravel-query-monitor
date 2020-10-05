@@ -2,8 +2,9 @@
 
 use Illuminate\Support\Facades\DB;
 use Orchestra\Testbench\TestCase;
+use Supliu\LaravelQueryMonitor\ListenQueries;
 
-class DispatchQueryTest extends TestCase
+class LaravelQueryMonitorTest extends TestCase
 {
     protected function getPackageProviders($app)
     {
@@ -20,27 +21,14 @@ class DispatchQueryTest extends TestCase
     {
         $app['config']->set('laravel-query-monitor.enable', true);
         $app['config']->set('laravel-query-monitor.host', '0.0.0.0');
-        $app['config']->set('laravel-query-monitor.port', 8081);
+        $app['config']->set('laravel-query-monitor.port', 8082);
     }
 
     /** 
      * @test 
      */
-    public function dispatchQuery()
+    public function runCommand()
     {
-        DB::statement('CREATE TABLE foo (id Int, name varchar)');
-
-        DB::table('foo')->count();
-
-        DB::table('foo')->insert([
-            'id' => 1,
-            'name' => 'bar'
-        ]);
-
-        DB::table('foo')
-            ->where('id', '!=', 4)
-            ->first();
-
-        DB::table('foo')->count();
+        // TODO
     }
 }
