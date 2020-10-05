@@ -1,0 +1,1 @@
+C:37:"PHPUnit\Runner\DefaultTestResultCache":142:{a:2:{s:7:"defects";a:1:{s:35:"LaravelQueryMonitorTest::runCommand";i:5;}s:5:"times";a:1:{s:35:"LaravelQueryMonitorTest::runCommand";d:0.355;}}}
