@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 namespace Supliu\LaravelQueryMonitor;
 
@@ -10,26 +10,6 @@ use React\Socket\ConnectionInterface;
 
 class ListenQueries
 {
-    /**
-     * @var string
-     */
-    private $host;
-
-    /**
-     * @var int
-     */
-    private $port;
-
-    /**
-     * @var \React\EventLoop\LoopInterface
-     */
-    private $loop;
-
-    /**
-     * @var \React\Socket\ServerInterface
-     */
-    private $socket;
-    
     /**
      * @var Closure
      */
@@ -45,68 +25,72 @@ class ListenQueries
      */
     private $debug = false;
 
-    public function __construct(string $host, int $port)
+    function __construct(string $host, int $port, int $moreThanMiliseconds)
     {
         $this->host = $host;
         $this->port = $port;
+        $this->moreThanMiliseconds = $moreThanMiliseconds;
         $this->loop = Factory::create();
         $this->socket = new Server($host.':'.$port, $this->loop);
     }
 
-    public function setInfo(Closure $info): self
+    public function setInfo(Closure $info)
     {
         $this->info = $info;
-
-        return $this;
     }
 
-    public function setWarn(Closure $warn): self
+    public function setWarn(Closure $warn)
     {
         $this->warn = $warn;
-
-        return $this;
     }
 
-    public function setDebug(bool $debug): self
+    public function setDebug(bool $debug)
     {
         $this->debug = $debug;
-
-        return $this;
     }
 
-    public function run(): void
+    public function run()
     {
         call_user_func($this->info, 'Listen SQL queries on '.$this->host.':'.$this->port . PHP_EOL . PHP_EOL);
 
         $this->socket->on('connection', function (ConnectionInterface $connection) {
+
             $connection->on('data', function ($data) use ($connection) {
-                if ($this->debug) {
+                
+                if($this->debug)
                     call_user_func($this->warn, '# Debug:' . $data);
-                }
 
                 $query = json_decode($data, true);
 
-                call_user_func($this->warn, '# Query received:');
 
                 if ($query === null) {
                     call_user_func($this->warn, '# Something wrong happened with JSON data received: ');
                     call_user_func($this->info, $data);
                 } else {
-                    $bindings = $query['bindings'] ?? [];
 
-                    $normalizedBindings = array_map(function ($i) {
-                        return is_string($i) ? '"'.$i.'"' : $i;
-                    }, $bindings);
+                    if($query['time'] > $this->moreThanMiliseconds) {
 
-                    $sql = Str::replaceArray('?', $normalizedBindings, $query['sql']);
+                        call_user_func($this->warn, '# Query received:');
 
-                    call_user_func($this->info, '# SQL: ' . $sql);
-                    call_user_func($this->info, '# Time: ' . $query['time'] / 1000 . ' seconds');
+                        $bindings = $query['bindings'] ?? [];
+
+                        $normalizedBindings = array_map(function($i){ 
+                            return is_string($i) ? '"'.$i.'"' : $i; 
+                        }, $bindings);
+
+                        $sql = Str::replaceArray('?', $normalizedBindings, $query['sql']);
+
+                        call_user_func($this->info, '# SQL: ' . $sql);
+                        call_user_func($this->info, '# Miliseconds: ' . $query['time']);
+                        call_user_func($this->info, '# Seconds: ' . $query['time'] / 1000);
+                        call_user_func($this->info, PHP_EOL);
+                    }
+
                 }
 
-                call_user_func($this->info, PHP_EOL);
 
                 $connection->close();
+                
             });
         });
 
